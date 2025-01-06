@@ -6,16 +6,16 @@ import sys
 import os
 
 # Configuration
-FAN_PIN = 14		# BCM pin used to drive PWM fan
+FAN_PIN = 18		# BCM pin used to drive PWM fan
 WAIT_TIME = 2		# [s] Time to wait between each refresh
-PWM_FREQ = 25		# [kHz] 25kHz for Noctua PWM control
+PWM_FREQ = 120		# [Hz] 10000Hz is the limit
 
 # Configurable temperature and fan speed
 MIN_TEMP = 42 		# under this temp value fan is switched to the FAN_OFF speed
 MAX_TEMP = 68 		# over this temp value fan is switched to the FAN_MAX speed
-FAN_LOW = 11 		# lower side of the fan speed range during cooling
-FAN_HIGH = 99 		# higher side of the fan speed range during cooling
-FAN_OFF = 10 		# fan speed to set if the detected temp is below MIN_TEMP 
+FAN_LOW = 30 		# lower side of the fan speed range during cooling
+FAN_HIGH = 100 		# higher side of the fan speed range during cooling
+FAN_OFF = 0 		# fan speed to set if the detected temp is below MIN_TEMP 
 FAN_MAX = 100 		# fan speed to set if the detected temp is above MAX_TEMP 
 
 # Get CPU's temperature
