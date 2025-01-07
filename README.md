@@ -24,6 +24,8 @@ sudo mount /dev/nvme0n1p2 /mnt/nvme
 sudo dd if=/dev/zero of=/mnt/nvme/testfile bs=1M count=2048 oflag=direct
 # READ TEST
 sudo dd if=/mnt/nvme/testfile of=/dev/null bs=1M count=2048 status=progress
+
+sudo rm /mnt/nvme/testfile
 ```
 
 
