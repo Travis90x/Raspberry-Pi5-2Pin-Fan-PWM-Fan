@@ -5,17 +5,17 @@ import os
 
 # Configuration
 FAN_PIN = 18       # BCM pin used to drive PWM fan
-WAIT_TIME = 10     # [s] Time to wait between each refresh
+WAIT_TIME = 5     # [s] Time to wait between each refresh
 PWM_FREQ = 200     # [kHz] 25kHz for Noctua PWM control
 
 # Configurable temperature and fan speed
-MIN_TEMP = 50      # under this temp value fan is switched to the FAN_OFF speed
-MAX_TEMP = 85      # over this temp value fan is switched to the FAN_MAX speed
+MIN_TEMP = 55      # under this temp value fan is switched to the FAN_OFF speed
+MAX_TEMP = 90      # over this temp value fan is switched to the FAN_MAX speed
 FAN_LOW = 30       # lower side of the fan speed range during cooling
 FAN_HIGH = 100     # higher side of the fan speed range during cooling
 FAN_OFF = 0        # fan speed to set if the detected temp is below MIN_TEMP 
 FAN_MAX = 100      # fan speed to set if the detected temp is above MAX_TEMP 
-TOLERANCE_MIN = 5  # [°C] Tolerance for FAN_OFF below MIN_TEMP
+TOLERANCE_MIN = 3  # [°C] Tolerance for FAN_OFF below MIN_TEMP
 
 # Get CPU's temperature
 def getCpuTemperature():
@@ -60,12 +60,12 @@ def highest_temp():
     print(f"SSD 2 Temperature Sensor 2: {ssd2_temp2}°C")   
     
     highest = max(cpu_temp, ssd1_temp1, ssd1_temp2, ssd2_temp2, ssd2_temp2)
-    print(f"Highest Temperature: {highest}°C")
+    print(f"Highest Temp.: {highest}°C")
     return highest
 
 def setFanSpeed(speed):
     pwm_fan.value = speed / 100  # divide by 100 to get values from 0 to 1
-    print(f"Fan Speed Set To: {round(speed, 1)}%")
+    # print(f"Fan Speed Set To: {round(speed, 1)}%")
 
 # Handle fan speed with tolerance
 def handleFanSpeed():
@@ -78,23 +78,27 @@ def handleFanSpeed():
     # Turn off the fan if temperature is below MIN_TEMP - TOLERANCE_MIN
     if temp < MIN_TEMP - TOLERANCE_MIN:
         setFanSpeed(FAN_OFF)
-        print(f"Fan OFF: {round(FAN_OFF, 1)}%")
-    # Set fan speed to MAXIMUM if temperature is between MIN_TEMP - TOLERANCE_MIN and MIN_TEMP
-    elif MIN_TEMP - TOLERANCE_MIN <= temp and temp < MIN_TEMP:
+        print(f"Fan profile OFF: {round(FAN_OFF, 1)}%")
+    # Don't change fan speed if temperature is between MIN_TEMP - TOLERANCE_MIN and MIN_TEMP + TOLERANCE_MIN
+    elif MIN_TEMP - TOLERANCE_MIN <= temp and temp <= MIN_TEMP + TOLERANCE_MIN:
+        # setFanSpeed(FAN_LOW)
+        print("Fan profile not changed.")
+    # Set fan speed to FAN_LOW if temperature is > MIN_TEMP + TOLERANCE_MIN
+    elif temp > MIN_TEMP + TOLERANCE_MIN:
         setFanSpeed(FAN_LOW)
-        print(f"Fan LOW: {round(FAN_LOW, 1)}%")
+        print(f"Fan profile LOW: {round(FAN_LOW, 1)}%")
     # Set fan speed to MAXIMUM if temperature is above MAX_TEMP
     elif temp > MAX_TEMP:
         setFanSpeed(FAN_MAX)
-        print(f"Fan MAX: {round(FAN_MAX, 1)}%")
+        print(f"Fan profile MAX: {round(FAN_MAX, 1)}%")
     # Calculate dynamic fan speed
     else:
         step = (FAN_HIGH - FAN_LOW) / (MAX_TEMP - MIN_TEMP)
-        temp_speed = temp
-        temp_speed -= MIN_TEMP
-        speed = FAN_LOW + (round(temp_speed) * step)
+        TEMP_STEP = temp - MIN_TEMP
+        TEMP_STEP = abs(TEMP_STEP)
+        speed = FAN_LOW + (round(TEMP_STEP) * step)
         setFanSpeed(speed)
-        print(f"Dynamic Fan Speed: {round(speed, 1)}% (Highest Temp.: {round(temp, 1)}°C)")
+        print(f"Fan profile dynamic: {round(speed, 1)}% (Highest Temp.: {round(temp, 1)}°C)")
         
 try:
     pwm_fan = PWMOutputDevice(FAN_PIN, initial_value=0, frequency=PWM_FREQ)  # initialize FAN_PIN as a pwm output
