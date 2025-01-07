@@ -15,7 +15,7 @@ FAN_LOW = 30       # lower side of the fan speed range during cooling
 FAN_HIGH = 100     # higher side of the fan speed range during cooling
 FAN_OFF = 0        # fan speed to set if the detected temp is below MIN_TEMP 
 FAN_MAX = 100      # fan speed to set if the detected temp is above MAX_TEMP 
-TOLERANCE_MIN = 3  # [°C] Tolerance for FAN_OFF below MIN_TEMP
+TOLERANCE_MIN = 3  # [°C] Tolerance for change Fan speed
 
 # Get CPU's temperature
 def getCpuTemperature():
