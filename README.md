@@ -16,8 +16,8 @@ Collect the two files the way you prefer and copy them in the locations suggeste
 
 You can simply...
 
-  git clone https://github.com/franganghi/Raspberry-Pi5-PWM-Fan-Control.git
-  cd Raspberry-Pi5-PWM-Fan-Control/
+  git clone https://github.com/Travis90x/Raspberry-Pi5-2Pin-Fan-PWM-Fan.git
+  cd Raspberry-Pi5-2Pin-Fan-PWM-Fan
 
 Install
 
