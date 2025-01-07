@@ -1,7 +1,9 @@
+The script was originally published by 
+https://github.com/DriftKingTW
 
-Take the highest temp from CPU, and 2 SSD NVME, to set the PWM value.
+This script take the highest temp from CPU and 2 SSD NVME to set the PWM value.
 
-In **fan_control_ssd.py** added TOLERANCE_MIN = X °C to not change fan speed
+In **fan_control_ssd.py** is added TOLERANCE_MIN = X (°C) to not change fan speed
 
 if (MIN_TEMP-X) <= temp <= (MIN_TEMP+X)
 
