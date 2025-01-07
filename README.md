@@ -5,7 +5,9 @@ Take the highest temp from CPU, and 2 SSD NVME, to set the PWM value.
 
 ![immagine](https://github.com/user-attachments/assets/b397c76b-bfbd-4916-a956-e86a77e3acdc)
 
-As a Service
+![immagine](https://github.com/user-attachments/assets/f6bc26f9-1e00-4c0e-a029-9acf5b047fcc)
+
+# Execute as a Service
 
 You need two files from the repository:
 
