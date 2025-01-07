@@ -13,6 +13,19 @@ sudo smartctl -A /dev/nvme0n1 | grep Temperature
 
 # Execute as a Service
 
+Benchmark SSD
+```
+sudo lsblk
+sudo dmesg | grep -i pcie
+sudo dmesg -w | grep -i nvme	
+
+sudo mkdir -p /mnt/nvme
+sudo mount /dev/nvme0n1p2 /mnt/nvme
+# WRITE TEST
+sudo dd if=/dev/zero of=/mnt/nvme/testfile bs=1M count=2048 oflag=direct
+# READ TEST
+sudo dd if=/mnt/nvme/testfile of=/dev/null bs=1M count=2048 status=progress
+```
 You need two files from the repository:
 
     pifancontrol.service
