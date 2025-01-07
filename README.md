@@ -1,9 +1,9 @@
 
 Take the highest temp from CPU, and 2 SSD NVME, to set the PWM value.
 
-In fan_control_ssd.py added TOLERANCE_MIN = 3 °C to not change fan speed
+In **fan_control_ssd.py** added TOLERANCE_MIN = X °C to not change fan speed
 
-if (MIN_TEMP - TOLERANCE_MIN) <= temp <= (MIN_TEMP + TOLERANCE_MIN)
+if (MIN_TEMP-X) <= temp <= (MIN_TEMP+X)
 
 ```
 sudo apt install smartmontools
