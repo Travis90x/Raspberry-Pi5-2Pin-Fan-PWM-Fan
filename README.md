@@ -1,12 +1,23 @@
-Manage a 12v/24v (external power with GND in common with raspberry) Fan with IRF520 using GPIO 18
 
 Take the highest temp from CPU, and 2 SSD NVME, to set the PWM value.
+
+In fan_control_ssd.py added TOLERANCE_MIN = 3 °C to not change fan speed
+
+if (MIN_TEMP - TOLERANCE_MIN) <= temp <= (MIN_TEMP + TOLERANCE_MIN)
+
 ```
 sudo apt install smartmontools
 lsblk
 sudo smartctl -A /dev/sda | grep Temperature
 sudo smartctl -A /dev/nvme0n1 | grep Temperature
 ```
+To stress CPU and test it
+
+```
+sudo apt-get install stress
+stress --cpu $(nproc)
+```
+
 ![immagine](https://github.com/user-attachments/assets/b397c76b-bfbd-4916-a956-e86a77e3acdc)
 
 ![immagine](https://github.com/user-attachments/assets/f6bc26f9-1e00-4c0e-a029-9acf5b047fcc)
