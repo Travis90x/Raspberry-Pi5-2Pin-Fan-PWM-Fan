@@ -1,5 +1,3 @@
-# Raspberry Pi5 PWM Fan Control
-
 Manage a 12v/24v (external power with GND in common with raspberry) Fan with IRF520 using GPIO 18
 
 Take the highest temp from CPU, and 2 SSD NVME, to set the PWM value.
@@ -18,12 +16,12 @@ You need two files from the repository:
 Collect the two files the way you prefer and copy them in the locations suggested below.
 
 You can simply...
-
+```
   git clone https://github.com/Travis90x/Raspberry-Pi5-2Pin-Fan-PWM-Fan.git
   cd Raspberry-Pi5-2Pin-Fan-PWM-Fan
-
+```
 Install
-
+```
   sudo cp pifancontrol.service /lib/systemd/system/pifancontrol.service
   sudo cp fan_control.py /usr/local/sbin/
   sudo chmod 644 /lib/systemd/system/pifancontrol.service
@@ -31,9 +29,9 @@ Install
   sudo systemctl daemon-reload
   sudo systemctl enable pifancontrol.service
   sudo systemctl start pifancontrol.service
-
+```
 Check status
-
+```
         user@host:~ $ sudo service pifancontrol status
         ● pifancontrol.service - Dynamic FAN control
              Loaded: loaded (/lib/systemd/system/pifancontrol.service; enabled; preset: enabled)
@@ -43,13 +41,13 @@ Check status
                 CPU: 91ms
              CGroup: /system.slice/pifancontrol.service
                      └─2158 /usr/bin/python3 /usr/local/sbin/fan_control.py
-
+```
 Remove / Uninstall
-
+```
   sudo systemctl stop pifancontrol.service
   sudo systemctl disable pifancontrol.service
   sudo systemctl daemon-reload
   sudo rm /usr/local/sbin/fan_control.py
   sudo rm /lib/systemd/system/pifancontrol.service
-
+```
 The script will be started on boot and will be restarted in case of errors.
