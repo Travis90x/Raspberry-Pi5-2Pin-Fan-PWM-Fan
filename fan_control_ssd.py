@@ -9,8 +9,8 @@ WAIT_TIME = 10     # [s] Time to wait between each refresh
 PWM_FREQ = 200     # [kHz] 25kHz for Noctua PWM control
 
 # Configurable temperature and fan speed
-MIN_TEMP = 35      # under this temp value fan is switched to the FAN_OFF speed
-MAX_TEMP = 90      # over this temp value fan is switched to the FAN_MAX speed
+MIN_TEMP = 50      # under this temp value fan is switched to the FAN_OFF speed
+MAX_TEMP = 85      # over this temp value fan is switched to the FAN_MAX speed
 FAN_LOW = 30       # lower side of the fan speed range during cooling
 FAN_HIGH = 100     # higher side of the fan speed range during cooling
 FAN_OFF = 0        # fan speed to set if the detected temp is below MIN_TEMP 
@@ -78,15 +78,15 @@ def handleFanSpeed():
     # Turn off the fan if temperature is below MIN_TEMP - TOLERANCE_MIN
     if temp < MIN_TEMP - TOLERANCE_MIN:
         setFanSpeed(FAN_OFF)
-        print(f"Fan OFF: {round(speed, 1)}%")
+        print(f"Fan OFF: {round(FAN_OFF, 1)}%")
     # Set fan speed to MAXIMUM if temperature is between MIN_TEMP - TOLERANCE_MIN and MIN_TEMP
     elif MIN_TEMP - TOLERANCE_MIN <= temp and temp < MIN_TEMP:
         setFanSpeed(FAN_LOW)
-        print(f"Fan LOW: {round(speed, 1)}%")
+        print(f"Fan LOW: {round(FAN_LOW, 1)}%")
     # Set fan speed to MAXIMUM if temperature is above MAX_TEMP
     elif temp > MAX_TEMP:
         setFanSpeed(FAN_MAX)
-        print(f"Fan MAX: {round(speed, 1)}%")
+        print(f"Fan MAX: {round(FAN_MAX, 1)}%")
     # Calculate dynamic fan speed
     else:
         step = (FAN_HIGH - FAN_LOW) / (MAX_TEMP - MIN_TEMP)
@@ -95,7 +95,7 @@ def handleFanSpeed():
         speed = FAN_LOW + (round(temp_speed) * step)
         setFanSpeed(speed)
         print(f"Dynamic Fan Speed: {round(speed, 1)}% (Highest Temp.: {round(temp, 1)}°C)")
-
+        
 try:
     pwm_fan = PWMOutputDevice(FAN_PIN, initial_value=0, frequency=PWM_FREQ)  # initialize FAN_PIN as a pwm output
     setFanSpeed(FAN_OFF)  # initially set fan speed to the FAN_OFF value
