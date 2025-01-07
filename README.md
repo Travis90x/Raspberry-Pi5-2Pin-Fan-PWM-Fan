@@ -1,7 +1,10 @@
 # Raspberry Pi5 PWM Fan Control
 
-The script was originally published by 
-https://github.com/DriftKingTW
+Manage a 12v/24v (external power with GND in common with raspberry) Fan with IRP520 usig GPIO 18
+Take the highest temp from CPU, and 2 SSD NVME, to set the PWM value.
+
+![immagine](https://github.com/user-attachments/assets/b397c76b-bfbd-4916-a956-e86a77e3acdc)
+
 
 Due to the recent architectural changes (RPi.GPIO cannot operate on the GPIO), the original version of the script cannot work on the PI5.
 
