@@ -59,7 +59,7 @@ def highest_temp():
     print(f"SSD 2 Temperature Sensor 1: {ssd2_temp1}°C")
     print(f"SSD 2 Temperature Sensor 2: {ssd2_temp2}°C")   
     
-    highest = max(cpu_temp, ssd1_temp1, ssd1_temp2, ssd2_temp2, ssd2_temp2)
+    highest = max(cpu_temp, ssd1_temp1, ssd1_temp2, ssd2_temp1, ssd2_temp2)
     print(f"Highest Temp.: {highest}°C")
     return highest
 
