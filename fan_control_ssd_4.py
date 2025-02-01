@@ -2,6 +2,7 @@
 from gpiozero import PWMOutputDevice
 import time
 import os
+import glob
 
 # Configuration
 FAN_PIN = 18       # BCM pin used to drive PWM fan
@@ -22,74 +23,192 @@ def getCpuTemperature():
     with open('/sys/class/thermal/thermal_zone0/temp') as f:
         return round(float(f.read()) / 1000, 1)
 
-# Get SSD 1 temperatures
-def getSsd1Temperatures():
+# Get SSD 1 temp0
+def getSsd1Temp0():
     try:
         # Run smartctl to fetch temperatures
-        result = os.popen("sudo smartctl -A /dev/nvme0n1 | grep Temperature").read()
+        result = os.popen("sudo smartctl -A /dev/nvme0 | grep Temperature:").read()
         lines = result.splitlines()
-        temp1 = round(float([line for line in lines if "Temperature Sensor 1" in line][0].split()[-2]), 1)
-        temp2 = round(float([line for line in lines if "Temperature Sensor 2" in line][0].split()[-2]), 1)
-        return temp1, temp2
+        temp0 = round(float([line for line in lines if "Temperature" in line][0].split()[-2]), 1)
+        return temp0
     except (IndexError, ValueError):
         # If parsing fails, assume a safe fallback temperature
-        return 0, 0
+        return 0
 
-# Get SSD 2 temperatures
-def getSsd2Temperatures():
+# Get SSD 1 temp1
+def getSsd1Temp1():
     try:
         # Run smartctl to fetch temperatures
-        result = os.popen("sudo smartctl -A /dev/nvme1n1 | grep Temperature").read()
+        result = os.popen("sudo smartctl -A /dev/nvme0 | grep Temperature").read()
         lines = result.splitlines()
         temp1 = round(float([line for line in lines if "Temperature Sensor 1" in line][0].split()[-2]), 1)
-        temp2 = round(float([line for line in lines if "Temperature Sensor 2" in line][0].split()[-2]), 1)
-        return temp1, temp2
+        return temp1
     except (IndexError, ValueError):
         # If parsing fails, assume a safe fallback temperature
-        return 0, 0
+        return 0
+        
+# Get SSD 1 temp2   
+def getSsd1Temp2():
+    try:
+        # Run smartctl to fetch temperatures
+        result = os.popen("sudo smartctl -A /dev/nvme0 | grep Temperature").read()
+        lines = result.splitlines()
+        temp2 = round(float([line for line in lines if "Temperature Sensor 2" in line][0].split()[-2]), 1)
+        return temp2
+    except (IndexError, ValueError):
+        # If parsing fails, assume a safe fallback temperature
+        return 0
+
+
+# Get SSD 2 temp0
+def getSsd2Temp0():
+    try:
+        # Run smartctl to fetch temperatures
+        result = os.popen("sudo smartctl -A /dev/nvme1 | grep Temperature:").read()
+        lines = result.splitlines()
+        temp0 = round(float([line for line in lines if "Temperature" in line][0].split()[-2]), 1)
+        return temp0
+    except (IndexError, ValueError):
+        # If parsing fails, assume a safe fallback temperature
+        return 0
+
+# Get SSD 2 temp1
+def getSsd2Temp1():
+    try:
+        # Run smartctl to fetch temperatures
+        result = os.popen("sudo smartctl -A /dev/nvme1 | grep Temperature").read()
+        lines = result.splitlines()
+        temp1 = round(float([line for line in lines if "Temperature Sensor 1" in line][0].split()[-2]), 1)
+        return temp1
+    except (IndexError, ValueError):
+        # If parsing fails, assume a safe fallback temperature
+        return 0
+        
+# Get SSD 2 temp2   
+def getSsd2Temp2():
+    try:
+        # Run smartctl to fetch temperatures
+        result = os.popen("sudo smartctl -A /dev/nvme1 | grep Temperature").read()
+        lines = result.splitlines()
+        temp2 = round(float([line for line in lines if "Temperature Sensor 2" in line][0].split()[-2]), 1)
+        return temp2
+    except (IndexError, ValueError):
+        # If parsing fails, assume a safe fallback temperature
+        return 0
+        
+        
+        
+# Get SSD 3 temp0
+def getSsd3Temp0():
+    try:
+        # Run smartctl to fetch temperatures
+        result = os.popen("sudo smartctl -A /dev/nvme2 | grep Temperature:").read()
+        lines = result.splitlines()
+        temp0 = round(float([line for line in lines if "Temperature" in line][0].split()[-2]), 1)
+        return temp0
+    except (IndexError, ValueError):
+        # If parsing fails, assume a safe fallback temperature
+        return 0
+
+# Get SSD 3 temp1
+def getSsd3Temp1():
+    try:
+        # Run smartctl to fetch temperatures
+        result = os.popen("sudo smartctl -A /dev/nvme2 | grep Temperature").read()
+        lines = result.splitlines()
+        temp1 = round(float([line for line in lines if "Temperature Sensor 1" in line][0].split()[-2]), 1)
+        return temp1
+    except (IndexError, ValueError):
+        # If parsing fails, assume a safe fallback temperature
+        return 0
+        
+# Get SSD 3 temp2   
+def getSsd3Temp2():
+    try:
+        # Run smartctl to fetch temperatures
+        result = os.popen("sudo smartctl -A /dev/nvme2 | grep Temperature").read()
+        lines = result.splitlines()
+        temp2 = round(float([line for line in lines if "Temperature Sensor 2" in line][0].split()[-2]), 1)
+        return temp2
+    except (IndexError, ValueError):
+        # If parsing fails, assume a safe fallback temperature
+        return 0
+        
+        
       
-# Get SSD 3 temperatures
-def getSsd3Temperatures():
+# Get SSD 4 temp0
+def getSsd4Temp0():
     try:
         # Run smartctl to fetch temperatures
-        result = os.popen("sudo smartctl -A /dev/nvme2n1 | grep Temperature").read()
+        result = os.popen("sudo smartctl -A /dev/nvme3 | grep Temperature:").read()
         lines = result.splitlines()
-        temp1 = round(float([line for line in lines if "Temperature Sensor 1" in line][0].split()[-2]), 1)
-        temp2 = round(float([line for line in lines if "Temperature Sensor 2" in line][0].split()[-2]), 1)
-        return temp1, temp2
+        temp0 = round(float([line for line in lines if "Temperature" in line][0].split()[-2]), 1)
+        return temp0
     except (IndexError, ValueError):
         # If parsing fails, assume a safe fallback temperature
-        return 0, 0
-      
-# Get SSD 4 temperatures
-def getSsd4Temperatures():
+        return 0
+
+# Get SSD 4 temp1
+def getSsd4Temp1():
     try:
         # Run smartctl to fetch temperatures
-        result = os.popen("sudo smartctl -A /dev/nvme3n1 | grep Temperature").read()
+        result = os.popen("sudo smartctl -A /dev/nvme3 | grep Temperature").read()
         lines = result.splitlines()
         temp1 = round(float([line for line in lines if "Temperature Sensor 1" in line][0].split()[-2]), 1)
-        temp2 = round(float([line for line in lines if "Temperature Sensor 2" in line][0].split()[-2]), 1)
-        return temp1, temp2
+        return temp1
     except (IndexError, ValueError):
         # If parsing fails, assume a safe fallback temperature
-        return 0, 0
+        return 0
+        
+# Get SSD 4 temp2   
+def getSsd4Temp2():
+    try:
+        # Run smartctl to fetch temperatures
+        result = os.popen("sudo smartctl -A /dev/nvme3 | grep Temperature").read()
+        lines = result.splitlines()
+        temp2 = round(float([line for line in lines if "Temperature Sensor 2" in line][0].split()[-2]), 1)
+        return temp2
+    except (IndexError, ValueError):
+        # If parsing fails, assume a safe fallback temperature
+        return 0
+        
+        
+        
       
 # Get the highest temperature
 def highest_temp():
     cpu_temp = getCpuTemperature()
-    ssd1_temp1, ssd1_temp2 = getSsd1Temperatures()
-    ssd2_temp1, ssd2_temp2 = getSsd2Temperatures()
+    ssd1_temp0 = getSsd1Temp0()
+    ssd1_temp1 = getSsd1Temp1()
+    ssd1_temp2 = getSsd1Temp2()
+    
+    ssd2_temp0 = getSsd2Temp0()
+    ssd2_temp1 = getSsd2Temp1()
+    ssd2_temp2 = getSsd2Temp2()
+            
+    ssd3_temp0 = getSsd3Temp0()
+    ssd3_temp1 = getSsd3Temp1()
+    ssd3_temp2 = getSsd3Temp2()
+    
+    ssd4_temp0 = getSsd4Temp0()
+    ssd4_temp1 = getSsd4Temp1()
+    ssd4_temp2 = getSsd4Temp2()
+    
     print(f"CPU Temperature: {cpu_temp}°C")
+    print(f"SSD 1 Temperature: {ssd1_temp0}°C")
     print(f"SSD 1 Temperature Sensor 1: {ssd1_temp1}°C")
     print(f"SSD 1 Temperature Sensor 2: {ssd1_temp2}°C")
+    print(f"SSD 2 Temperature: {ssd2_temp0}°C")
     print(f"SSD 2 Temperature Sensor 1: {ssd2_temp1}°C")
-    print(f"SSD 2 Temperature Sensor 2: {ssd2_temp2}°C")   
-    print(f"SSD 3 Temperature Sensor 1: {ssd2_temp1}°C")
-    print(f"SSD 3 Temperature Sensor 2: {ssd2_temp2}°C")  
-    print(f"SSD 4 Temperature Sensor 1: {ssd2_temp1}°C")
-    print(f"SSD 4 Temperature Sensor 2: {ssd2_temp2}°C")    
+    print(f"SSD 2 Temperature Sensor 2: {ssd2_temp2}°C")  
+    print(f"SSD 3 Temperature: {ssd3_temp0}°C")    
+    print(f"SSD 3 Temperature Sensor 1: {ssd3_temp1}°C")
+    print(f"SSD 3 Temperature Sensor 2: {ssd3_temp2}°C")
+    print(f"SSD 4 Temperature: {ssd4_temp0}°C")    
+    print(f"SSD 4 Temperature Sensor 1: {ssd4_temp1}°C")
+    print(f"SSD 4 Temperature Sensor 2: {ssd4_temp2}°C")    
     
-    highest = max(cpu_temp, ssd1_temp1, ssd1_temp2, ssd2_temp1, ssd2_temp2, ssd3_temp1, ssd3_temp2, ssd4_temp1, ssd4_temp2)
+    highest = max(cpu_temp, ssd1_temp0, ssd1_temp1, ssd1_temp2, ssd2_temp2, ssd2_temp1, ssd2_temp2, ssd3_temp0, ssd3_temp1, ssd3_temp2, ssd4_temp0, ssd4_temp1, ssd4_temp2)
     print(f"Highest Temp.: {highest}°C")
     return highest
 
