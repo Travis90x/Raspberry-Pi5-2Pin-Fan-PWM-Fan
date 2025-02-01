@@ -34,32 +34,16 @@ def getSsd1Temperatures():
     except (IndexError, ValueError):
         # If parsing fails, assume a safe fallback temperature
         return 0, 0
-
-# Get SSD 2 temperatures
-def getSsd2Temperatures():
-    try:
-        # Run smartctl to fetch temperatures
-        result = os.popen("sudo smartctl -A /dev/nvme1n1 | grep Temperature").read()
-        lines = result.splitlines()
-        temp1 = round(float([line for line in lines if "Temperature Sensor 1" in line][0].split()[-2]), 1)
-        temp2 = round(float([line for line in lines if "Temperature Sensor 2" in line][0].split()[-2]), 1)
-        return temp1, temp2
-    except (IndexError, ValueError):
-        # If parsing fails, assume a safe fallback temperature
-        return 0, 0
         
 # Get the highest temperature
 def highest_temp():
     cpu_temp = getCpuTemperature()
     ssd1_temp1, ssd1_temp2 = getSsd1Temperatures()
-    ssd2_temp1, ssd2_temp2 = getSsd2Temperatures()
     print(f"CPU Temperature: {cpu_temp}°C")
     print(f"SSD 1 Temperature Sensor 1: {ssd1_temp1}°C")
     print(f"SSD 1 Temperature Sensor 2: {ssd1_temp2}°C")
-    print(f"SSD 2 Temperature Sensor 1: {ssd2_temp1}°C")
-    print(f"SSD 2 Temperature Sensor 2: {ssd2_temp2}°C")   
     
-    highest = max(cpu_temp, ssd1_temp1, ssd1_temp2, ssd2_temp1, ssd2_temp2)
+    highest = max(cpu_temp, ssd1_temp1, ssd1_temp2)
     print(f"Highest Temp.: {highest}°C")
     return highest
 
